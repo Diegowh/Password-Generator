@@ -41,7 +41,7 @@ impl PasswordGeneratorApp {
             &self.service_name,
         );
 
-        let response = egui::Frame::NONE
+        egui::Frame::NONE
             .fill(egui::Color32::WHITE)
             .corner_radius(egui::CornerRadius::same(4))
             .inner_margin(egui::Margin::ZERO)
@@ -62,13 +62,13 @@ impl PasswordGeneratorApp {
                             )
                                 .fill(egui::Color32::TRANSPARENT)
                                 .stroke(egui::Stroke::NONE)
-                                .rounding(egui::Rounding::same(4)),
+                                .corner_radius(egui::CornerRadius::same(4)),
                         );
 
                         if copy_button_response.hovered() {
                             ui.painter().rect_filled(
                                 copy_button_response.rect,
-                                egui::Rounding::same(4),
+                                egui::CornerRadius::same(4),
                                 egui::Color32::from_gray(200),
                             );
                             ui.painter().text(
@@ -117,13 +117,13 @@ impl PasswordGeneratorApp {
                             )
                                 .fill(egui::Color32::TRANSPARENT)
                                 .stroke(egui::Stroke::NONE)
-                                .rounding(egui::Rounding::same(4)),
+                                .corner_radius(egui::CornerRadius::same(4)),
                         );
 
                         if toggle_button_response.hovered() {
                             ui.painter().rect_filled(
                                 toggle_button_response.rect,
-                                egui::Rounding::same(4),
+                                egui::CornerRadius::same(4),
                                 egui::Color32::from_gray(200),
                             );
 

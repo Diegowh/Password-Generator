@@ -1,3 +1,5 @@
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 mod app;
 mod clipboard;
 mod config;
@@ -8,7 +10,6 @@ use app::PasswordGeneratorApp;
 use eframe;
 use egui::IconData;
 
-// Embed the icon at compile time
 const ICON_BYTES: &[u8] = include_bytes!("assets/icon.png");
 
 fn load_icon() -> IconData {
