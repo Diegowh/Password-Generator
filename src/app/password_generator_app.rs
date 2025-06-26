@@ -1,5 +1,6 @@
 use eframe::{App, Frame};
 use egui::Context;
+use sha2::{Sha256, Digest};
 use crate::config::FileConfigManager;
 use crate::controllers::PasswordController;
 use crate::clipboard::ProductionClipboardManager;
@@ -126,6 +127,34 @@ impl PasswordGeneratorApp {
             });
     }
 
+    fn get_background_color(&self) -> egui::Color32 {
+        if self.master_password.is_empty() {
+            
+            egui::Color32::from_rgb(80, 90, 100)
+        } else {
+            
+            let mut hasher = Sha256::new();
+            hasher.update(self.master_password.as_bytes());
+            let hash = hasher.finalize();
+            
+            // Extract RGB values from hash (first 3 bytes)
+            let r = hash[0];
+            let g = hash[1];
+            let b = hash[2];
+            
+            let min_brightness = 60;
+            let r = r.max(min_brightness);
+            let g = g.max(min_brightness);
+            let b = b.max(min_brightness);
+            
+            let r = (r as f32 * 0.7) as u8;
+            let g = (g as f32 * 0.7) as u8;
+            let b = (b as f32 * 0.7) as u8;
+            
+            egui::Color32::from_rgb(r, g, b)
+        }
+    }
+
 }
 
 impl App for PasswordGeneratorApp {
@@ -136,8 +165,10 @@ impl App for PasswordGeneratorApp {
         };
         ctx.set_visuals(visuals);
 
+        let background_color = self.get_background_color();
+
         egui::CentralPanel::default()
-            .frame(egui::Frame::NONE.fill(egui::Color32::from_rgb(145, 55, 65)))
+            .frame(egui::Frame::NONE.fill(background_color))
             .show(ctx, |ui| {
                 ui.with_layout(egui::Layout::top_down(egui::Align::Center), |ui| {
                     ui.add_space(50.0);
