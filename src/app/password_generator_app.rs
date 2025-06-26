@@ -183,6 +183,12 @@ impl App for PasswordGeneratorApp {
                         ))
                         .corner_radius(egui::CornerRadius::same(10))
                         .inner_margin(egui::Margin::same(20))
+                        .shadow(egui::epaint::Shadow {
+                            offset: [6, 8],
+                            blur: 10,
+                            spread: 0,
+                            color: egui::Color32::from_black_alpha(50),
+                        })
                         .show(ui, |ui| {
                             ui.set_width(300.0);
 
