@@ -129,24 +129,24 @@ impl PasswordGeneratorApp {
 
     fn get_background_color(&self) -> egui::Color32 {
         if self.master_password.is_empty() {
-            
+
             egui::Color32::from_rgb(80, 90, 100)
         } else {
-            
+
             let mut hasher = Sha256::new();
             hasher.update(self.master_password.as_bytes());
             let hash = hasher.finalize();
-            
+
             // Extract RGB values from hash (first 3 bytes)
             let r = hash[0];
             let g = hash[1];
             let b = hash[2];
-            
+
             let min_brightness = 60;
             let r = r.max(min_brightness);
             let g = g.max(min_brightness);
             let b = b.max(min_brightness);
-            
+
             let r = (r as f32 * 0.7) as u8;
             let g = (g as f32 * 0.7) as u8;
             let b = (b as f32 * 0.7) as u8;
