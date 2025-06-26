@@ -49,8 +49,42 @@ impl PasswordGeneratorApp {
                     egui::Vec2::new(ui.available_width(), 30.0),
                     egui::Layout::left_to_right(egui::Align::Center),
                     |ui| {
-                        let label_response = ui.allocate_ui_with_layout(
-                            egui::Vec2::new(ui.available_width() - 30.0, 30.0),
+                        let button_size = 30.0;
+                        
+                        
+                        let copy_button_response = ui.add_sized(
+                            [button_size, button_size],
+                            egui::Button::new(
+                                egui::RichText::new("📋")
+                                    .color(egui::Color32::BLACK)
+                                    .size(16.0)
+                            )
+                                .fill(egui::Color32::TRANSPARENT)
+                                .stroke(egui::Stroke::NONE)
+                                .rounding(egui::Rounding::ZERO)
+                        );
+
+                        if copy_button_response.hovered() {
+                            ui.painter().rect_filled(
+                                copy_button_response.rect,
+                                egui::Rounding::ZERO,
+                                egui::Color32::from_gray(200)
+                            );
+                        }
+
+                        if copy_button_response.clicked() {
+                            if self.controller.copy_password_to_clipboard(
+                                &self.master_password,
+                                &self.service_name,
+                            ) {
+                                self.clipboard_message = "¡Copiado!".to_string();
+                                self.clipboard_message_time = std::time::Instant::now();
+                            }
+                        }
+
+                        
+                        ui.allocate_ui_with_layout(
+                            egui::Vec2::new(ui.available_width() - button_size, 30.0),
                             egui::Layout::centered_and_justified(egui::Direction::LeftToRight),
                             |ui| {
                                 ui.label(
@@ -61,24 +95,10 @@ impl PasswordGeneratorApp {
                             }
                         );
 
-                        if label_response.response.hovered() {
-                            ui.ctx().set_cursor_icon(egui::CursorIcon::PointingHand);
-                        }
-
-                        if label_response.response.clicked() {
-                            if self.controller.copy_password_to_clipboard(
-                                &self.master_password,
-                                &self.service_name,
-                            ) {
-                                self.clipboard_message = "¡Copiado!".to_string();
-                                self.clipboard_message_time = std::time::Instant::now();
-                            }
-                        }
-
-                        let button_size = 30.0;
+                        
                         let icon = if self.controller.is_password_visible() { "👁" } else { "🙈" };
 
-                        let button_response = ui.add_sized(
+                        let toggle_button_response = ui.add_sized(
                             [button_size, button_size],
                             egui::Button::new(
                                 egui::RichText::new(icon)
@@ -90,15 +110,15 @@ impl PasswordGeneratorApp {
                                 .rounding(egui::Rounding::ZERO)
                         );
 
-                        if button_response.hovered() {
+                        if toggle_button_response.hovered() {
                             ui.painter().rect_filled(
-                                button_response.rect,
+                                toggle_button_response.rect,
                                 egui::Rounding::ZERO,
                                 egui::Color32::from_gray(200)
                             );
                         }
 
-                        if button_response.clicked() {
+                        if toggle_button_response.clicked() {
                             self.controller.toggle_password_visibility();
                         }
                     }

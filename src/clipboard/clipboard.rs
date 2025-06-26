@@ -8,7 +8,7 @@ impl ClipboardManager for ProductionClipboardManager {
             Ok(mut clipboard) => {
                 match clipboard.set_text(text) {
                     Ok(_) => {
-                        println!("Contraseña copiada al portapapeles");
+                        println!("✓ Contraseña copiada al portapapeles");
                     }
                     Err(e) => {
                         eprintln!("Error copiando al portapapeles: {}", e);
