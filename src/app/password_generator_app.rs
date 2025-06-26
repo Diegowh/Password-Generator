@@ -224,7 +224,20 @@ impl App for PasswordGeneratorApp {
                             } else if self.clipboard_message_time.elapsed().as_secs() >= 2 {
                                 self.clipboard_message.clear();
                             }
-                        })
+                        });
+
+                    // Add flexible space to push copyright to bottom
+                    ui.allocate_space(egui::Vec2::new(0.0, ui.available_height() - 30.0));
+
+                    // Copyright footer
+                    ui.with_layout(egui::Layout::bottom_up(egui::Align::Center), |ui| {
+                        ui.add_space(10.0);
+                        ui.label(
+                            egui::RichText::new("2025 - DiegoWH")
+                                .size(10.0)
+                                .color(egui::Color32::from_gray(150))
+                        );
+                    });
                 })
             });
     }
