@@ -88,10 +88,12 @@ impl PasswordGeneratorApp {
                             egui::Vec2::new(ui.available_width() - button_size, 30.0),
                             egui::Layout::centered_and_justified(egui::Direction::LeftToRight),
                             |ui| {
-                                ui.label(
-                                    egui::RichText::new(&visible_password)
-                                        .color(egui::Color32::BLACK)
-                                        .size(16.0)
+                                ui.add(
+                                    egui::Label::new(
+                                        egui::RichText::new(&visible_password)
+                                            .color(egui::Color32::BLACK)
+                                            .size(16.0)
+                                    ).selectable(false)
                                 )
                             }
                         );
