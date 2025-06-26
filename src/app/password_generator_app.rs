@@ -62,14 +62,21 @@ impl PasswordGeneratorApp {
                             )
                                 .fill(egui::Color32::TRANSPARENT)
                                 .stroke(egui::Stroke::NONE)
-                                .rounding(egui::Rounding::ZERO)
+                                .rounding(egui::Rounding::same(4))
                         );
 
                         if copy_button_response.hovered() {
                             ui.painter().rect_filled(
                                 copy_button_response.rect,
-                                egui::Rounding::ZERO,
+                                egui::Rounding::same(4),
                                 egui::Color32::from_gray(200)
+                            );
+                            ui.painter().text(
+                                copy_button_response.rect.center(),
+                                egui::Align2::CENTER_CENTER,
+                                "📋",
+                                egui::FontId::proportional(16.0),
+                                egui::Color32::BLACK
                             );
                         }
 
@@ -85,7 +92,7 @@ impl PasswordGeneratorApp {
 
                         
                         ui.allocate_ui_with_layout(
-                            egui::Vec2::new(ui.available_width() - button_size, 30.0),
+                            egui::Vec2::new(ui.available_width() - button_size - 5.0, 30.0),
                             egui::Layout::centered_and_justified(egui::Direction::LeftToRight),
                             |ui| {
                                 ui.add(
@@ -110,14 +117,22 @@ impl PasswordGeneratorApp {
                             )
                                 .fill(egui::Color32::TRANSPARENT)
                                 .stroke(egui::Stroke::NONE)
-                                .rounding(egui::Rounding::ZERO)
+                                .rounding(egui::Rounding::same(4))
                         );
 
                         if toggle_button_response.hovered() {
                             ui.painter().rect_filled(
                                 toggle_button_response.rect,
-                                egui::Rounding::ZERO,
+                                egui::Rounding::same(4),
                                 egui::Color32::from_gray(200)
+                            );
+                            
+                            ui.painter().text(
+                                toggle_button_response.rect.center(),
+                                egui::Align2::CENTER_CENTER,
+                                icon,
+                                egui::FontId::proportional(16.0),
+                                egui::Color32::BLACK
                             );
                         }
 
@@ -138,8 +153,7 @@ impl PasswordGeneratorApp {
             let mut hasher = Sha256::new();
             hasher.update(self.master_password.as_bytes());
             let hash = hasher.finalize();
-
-            // Extract RGB values from hash (first 3 bytes)
+            
             let r = hash[0];
             let g = hash[1];
             let b = hash[2];
@@ -232,16 +246,15 @@ impl App for PasswordGeneratorApp {
                             }
                         });
 
-                    // Add flexible space to push copyright to bottom
                     ui.allocate_space(egui::Vec2::new(0.0, ui.available_height() - 30.0));
 
-                    // Copyright footer
                     ui.with_layout(egui::Layout::bottom_up(egui::Align::Center), |ui| {
                         ui.add_space(10.0);
                         ui.label(
                             egui::RichText::new("2025 - DiegoWH")
                                 .size(10.0)
                                 .color(egui::Color32::from_gray(150))
+                                
                         );
                     });
                 })
