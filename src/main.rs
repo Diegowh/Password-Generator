@@ -4,8 +4,8 @@ mod config;
 mod generators;
 mod controllers;
 
-use eframe;
 use app::PasswordGeneratorApp;
+use eframe;
 use egui::IconData;
 
 // Embed the icon at compile time
@@ -25,7 +25,7 @@ fn load_icon() -> IconData {
 
 fn main() -> Result<(), eframe::Error> {
     let icon = load_icon();
-    
+
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_inner_size([400.0, 300.0])
@@ -33,10 +33,10 @@ fn main() -> Result<(), eframe::Error> {
             .with_icon(icon),
         ..Default::default()
     };
-    
+
     eframe::run_native(
         "Password Generator",
         options,
-        Box::new(|_cc| Ok(Box::new(PasswordGeneratorApp::new())))
+        Box::new(|_cc| Ok(Box::new(PasswordGeneratorApp::new()))),
     )
 }

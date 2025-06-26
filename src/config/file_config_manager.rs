@@ -1,5 +1,5 @@
-use std::fs;
 use crate::config::{config_types::Config, traits::ConfigManager};
+use std::fs;
 
 pub struct FileConfigManager {
     config_file: String,

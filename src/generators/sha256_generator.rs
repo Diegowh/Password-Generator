@@ -1,5 +1,5 @@
-use sha2::{Sha256, Digest};
 use crate::generators::traits::PasswordGenerator;
+use sha2::{Digest, Sha256};
 
 pub struct Sha256PasswordGenerator;
 

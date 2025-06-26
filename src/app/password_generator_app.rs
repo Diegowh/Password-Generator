@@ -1,10 +1,10 @@
-use eframe::{App, Frame};
-use egui::Context;
-use sha2::{Sha256, Digest};
+use crate::clipboard::ProductionClipboardManager;
 use crate::config::FileConfigManager;
 use crate::controllers::PasswordController;
-use crate::clipboard::ProductionClipboardManager;
 use crate::generators::Sha256PasswordGenerator;
+use eframe::{App, Frame};
+use egui::Context;
+use sha2::{Digest, Sha256};
 
 pub struct PasswordGeneratorApp {
     controller: PasswordController,
@@ -51,8 +51,8 @@ impl PasswordGeneratorApp {
                     egui::Layout::left_to_right(egui::Align::Center),
                     |ui| {
                         let button_size = 30.0;
-                        
-                        
+
+
                         let copy_button_response = ui.add_sized(
                             [button_size, button_size],
                             egui::Button::new(
@@ -62,21 +62,21 @@ impl PasswordGeneratorApp {
                             )
                                 .fill(egui::Color32::TRANSPARENT)
                                 .stroke(egui::Stroke::NONE)
-                                .rounding(egui::Rounding::same(4))
+                                .rounding(egui::Rounding::same(4)),
                         );
 
                         if copy_button_response.hovered() {
                             ui.painter().rect_filled(
                                 copy_button_response.rect,
                                 egui::Rounding::same(4),
-                                egui::Color32::from_gray(200)
+                                egui::Color32::from_gray(200),
                             );
                             ui.painter().text(
                                 copy_button_response.rect.center(),
                                 egui::Align2::CENTER_CENTER,
                                 "📋",
                                 egui::FontId::proportional(16.0),
-                                egui::Color32::BLACK
+                                egui::Color32::BLACK,
                             );
                         }
 
@@ -90,7 +90,7 @@ impl PasswordGeneratorApp {
                             }
                         }
 
-                        
+
                         ui.allocate_ui_with_layout(
                             egui::Vec2::new(ui.available_width() - button_size - 5.0, 30.0),
                             egui::Layout::centered_and_justified(egui::Direction::LeftToRight),
@@ -102,10 +102,10 @@ impl PasswordGeneratorApp {
                                             .size(16.0)
                                     ).selectable(false)
                                 )
-                            }
+                            },
                         );
 
-                        
+
                         let icon = if self.controller.is_password_visible() { "👁" } else { "🙈" };
 
                         let toggle_button_response = ui.add_sized(
@@ -117,43 +117,41 @@ impl PasswordGeneratorApp {
                             )
                                 .fill(egui::Color32::TRANSPARENT)
                                 .stroke(egui::Stroke::NONE)
-                                .rounding(egui::Rounding::same(4))
+                                .rounding(egui::Rounding::same(4)),
                         );
 
                         if toggle_button_response.hovered() {
                             ui.painter().rect_filled(
                                 toggle_button_response.rect,
                                 egui::Rounding::same(4),
-                                egui::Color32::from_gray(200)
+                                egui::Color32::from_gray(200),
                             );
-                            
+
                             ui.painter().text(
                                 toggle_button_response.rect.center(),
                                 egui::Align2::CENTER_CENTER,
                                 icon,
                                 egui::FontId::proportional(16.0),
-                                egui::Color32::BLACK
+                                egui::Color32::BLACK,
                             );
                         }
 
                         if toggle_button_response.clicked() {
                             self.controller.toggle_password_visibility();
                         }
-                    }
+                    },
                 );
             });
     }
 
     fn get_background_color(&self) -> egui::Color32 {
         if self.master_password.is_empty() {
-
             egui::Color32::from_rgb(80, 90, 100)
         } else {
-
             let mut hasher = Sha256::new();
             hasher.update(self.master_password.as_bytes());
             let hash = hasher.finalize();
-            
+
             let r = hash[0];
             let g = hash[1];
             let b = hash[2];
@@ -166,11 +164,10 @@ impl PasswordGeneratorApp {
             let r = (r as f32 * 0.7) as u8;
             let g = (g as f32 * 0.7) as u8;
             let b = (b as f32 * 0.7) as u8;
-            
+
             egui::Color32::from_rgb(r, g, b)
         }
     }
-
 }
 
 impl App for PasswordGeneratorApp {
@@ -254,7 +251,6 @@ impl App for PasswordGeneratorApp {
                             egui::RichText::new("2025 - DiegoWH")
                                 .size(10.0)
                                 .color(egui::Color32::from_gray(150))
-                                
                         );
                     });
                 })

@@ -1,5 +1,5 @@
 pub mod traits;
 pub mod clipboard;
 
-pub use clipboard::{ProductionClipboardManager, MockClipboardManager};
+pub use clipboard::ProductionClipboardManager;
 pub use traits::ClipboardManager;
